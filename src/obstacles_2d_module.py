@@ -70,6 +70,8 @@ class ObstacleDetectorModule(Vision, Reconfigurable):
         ransac_residual_threshold = get_attribute_from_config('ransac_residual_threshold', 0.2)
         ransac_stop_probability = get_attribute_from_config("ransac_stop_probability", 0.99)
         
+        # self.min_range_mm = get_attribute_from_config("min_range_mm", 1000)*10**(-3)
+        
         
 
         self.detector = Detector(normalize=True,
@@ -92,7 +94,7 @@ class ObstacleDetectorModule(Vision, Reconfigurable):
         
         pcd_bytes, _ = await self.camera.get_point_cloud()
     
-        pc = decode_pcd_bytes(pcd_bytes)
+        pc = decode_pcd_bytes(pcd_bytes, self.min_range_mm)
         ppc = pc.get_planar_from_3D()
         ppc.normalize_point_cloud()
     
