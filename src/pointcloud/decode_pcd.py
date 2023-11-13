@@ -71,5 +71,9 @@ def decode_pcd_bytes(pcd_bytes, min_range_mm=None) -> PointCloud:
         for point in points:
             if math.sqrt(point[0]**2+point[1]**2+point[2]**2)>min_range_mm:
                 points_filtered.append(point)
+        
+        metadata["POINTS"] = len(points_filtered)
+        metadata["WIDTH"] = len(points_filtered)
+        
             
     return PointCloud(points= points_filtered, metadata=metadata)
